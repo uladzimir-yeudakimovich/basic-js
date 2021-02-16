@@ -2,16 +2,14 @@ const CustomError = require("../extensions/custom-error");
 
 module.exports = class DepthCalculator {
   calculateDepth(arr) {
-    let deep = 0;
-    const recursion = arr => {
-      deep += 1;
-      for (let i = 0; i < arr.length; i++) {
-        if (Array.isArray(arr[i])) {
-          recursion(arr[i]);
-        }
+    let depth = 1;
+    for (let i = 0; i < arr.length; i++) {
+      if (Array.isArray(arr[i])) {
+        let sum = 1;
+        sum += this.calculateDepth(arr[i]);
+        if (sum > depth) depth = sum;
       }
     }
-    recursion(arr);
-    return deep;
+    return depth;
   }
 };
