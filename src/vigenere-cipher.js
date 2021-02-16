@@ -1,48 +1,58 @@
 const CustomError = require("../extensions/custom-error");
 
 class VigenereCipheringMachine {
+  alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
   constructor(simple) {
     this.simple = simple || true;
   }
 
   encrypt(message, key) {
-    if (!message || !key) throw `Error: message and key required`;
-    let enc = '';
-    let shifr = key;
-    while (shifr.length < message.length) {
-      shifr += key;
-    }
-    let count = 0;
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    for (let i = 0; i < message.length; i++) {
+    this.dataCheck(message, key);
+    message = message.toUpperCase();
+    const long = message.length;
+    const shifr = this.shifrCreator(key, long);
+    let text = '';
+    let j = 0;
+    for (let i = 0; i < long; i++) {
       if (/[A-Za-z]/.test(message[i])) {
-        enc += alphabet[(alphabet.indexOf(message.toUpperCase()[i]) + alphabet.indexOf(shifr.toUpperCase()[count])) % 26];
-        count += 1;
+        text += this.alphabet[(this.alphabet.indexOf(message[i]) + this.alphabet.indexOf(shifr[j])) % 26];
+        j += 1;
       } else {
-        enc += message[i];
+        text += message[i];
       }
     }
-    return this.simple ? enc : enc.reverse()
+    return this.simple ? text : text.split('').reverse().join('');
   }
 
   decrypt(message, key) {
-    if (!message || !key) throw `Error: message and key required`;
-    let dec = '';
-    let shifr = '';
-    while (shifr.length < message.length) {
-      shifr += key;
-    }
-    let count = 0;
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    for (let i = 0; i < message.length; i++) {
+    this.dataCheck(message, key);
+    message = message.toUpperCase();
+    const long = message.length;
+    const shifr = this.shifrCreator(key, long);
+    let text = '';
+    let j = 0;
+    for (let i = 0; i < long; i++) {
       if (/[A-Za-z]/.test(message[i])) {
-        dec += alphabet[(26 + alphabet.indexOf(message.toUpperCase()[i]) - alphabet.indexOf(shifr.toUpperCase()[count])) % 26];
-        count += 1;
+        text += this.alphabet[(26 + this.alphabet.indexOf(message[i]) - this.alphabet.indexOf(shifr[j])) % 26];
+        j += 1;
       } else {
-        dec += message[i];
+        text += message[i];
       }
     }
-    return this.simple ? dec : dec.reverse()
+    return this.simple ? text : text.split('').reverse().join('');
+  }
+
+  dataCheck(message, key) {
+    if (!message || !key) throw `Error: message and key required`;
+  }
+
+  shifrCreator(key, long) {
+    let shifr = '';
+    while (shifr.length < long) {
+      shifr += key;
+    }
+    return shifr.toUpperCase();
   }
 }
 
