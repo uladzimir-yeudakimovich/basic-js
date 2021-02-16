@@ -1,7 +1,7 @@
 const CustomError = require("../extensions/custom-error");
 
 module.exports = function transform(arr) {
-  if (!Array.isArray(arr)) throw new CustomError(`${arr} is not Array`);
+  if (!Array.isArray(arr)) throw `${arr} is not Array`;
   const newArr = [];
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === '--discard-next') {

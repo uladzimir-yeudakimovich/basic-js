@@ -16,7 +16,7 @@ const chainMaker = {
       position > this.getLength() - 1
     ) {
       this.chain.length = 0;
-      throw new CustomError('Error');
+      throw `Error: position ${position} is wrong!`;
     }
     this.chain.splice(position - 1, 1);
     return this;
