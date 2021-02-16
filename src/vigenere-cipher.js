@@ -13,7 +13,7 @@ class VigenereCipheringMachine {
       shifr += key;
     }
     let count = 0;
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');;
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     for (let i = 0; i < message.length; i++) {
       if (/[A-Za-z]/.test(message[i])) {
         enc += alphabet[(alphabet.indexOf(message.toUpperCase()[i]) + alphabet.indexOf(shifr.toUpperCase()[count])) % 26];
@@ -32,14 +32,11 @@ class VigenereCipheringMachine {
     while (shifr.length < message.length) {
       shifr += key;
     }
-    shifr = shifr.split('').reverse();
-    shifr.length = message.length;
-    shifr = shifr.join('');
     let count = 0;
-    const alphabet = 'ZYXWVUTSRQPONMLKJIHGFEDCBA'.split('');
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     for (let i = 0; i < message.length; i++) {
       if (/[A-Za-z]/.test(message[i])) {
-        dec += alphabet[(alphabet.indexOf(message.toUpperCase()[i]) + alphabet.indexOf(shifr.toUpperCase()[count])) % 26];
+        dec += alphabet[(26 + alphabet.indexOf(message.toUpperCase()[i]) - alphabet.indexOf(shifr.toUpperCase()[count])) % 26];
         count += 1;
       } else {
         dec += message[i];
